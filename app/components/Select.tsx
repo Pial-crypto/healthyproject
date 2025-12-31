@@ -2,17 +2,24 @@
 
 import React, { SelectHTMLAttributes, ReactNode } from "react";
 
+interface SelectOption {
+  value: string;
+  label: string;
+}
+
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   error?: string;
-  options?: Array<{ value: string; label: string }>;
+  options?: SelectOption[];
   children?: ReactNode;
+  placeholder?: string; 
 }
 
 export function Select({
   label,
   error,
   options,
+  placeholder,
   className = "",
   children,
   ...props
@@ -24,6 +31,7 @@ export function Select({
           {label}
         </label>
       )}
+
       <select
         {...props}
         className={`
@@ -36,19 +44,22 @@ export function Select({
           ${className}
         `}
       >
-        {props.placeholder && (
+        {placeholder && (
           <option value="" disabled hidden>
-            {props.placeholder}
+            {placeholder}
           </option>
         )}
+
         {options &&
           options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
+
         {children}
       </select>
+
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );

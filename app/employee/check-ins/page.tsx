@@ -4,11 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Card, CardBody, Button, EmptyState } from "@/app/components";
 import Link from "next/link";
-import { SkeletonList } from "@/app/components/skeleton";
+import { SkeletonList } from "@/app/components/Skeleton";
 import { hasPassed, isCurrentWeek } from "@/lib/utils/checkInhelpers";
 import { useProtectedRoute } from "@/lib/hooks/useProtectedRoute";
 
-/* ---------------- Countdown Helper ---------------- */
 function getDaysUntilNextWeek() {
   const now = new Date();
   const day = now.getDay(); // Sunday = 0
@@ -32,7 +31,7 @@ export default function CheckInsList() {
   if (isLoading) return <SkeletonList />;
   if (!user) return null;
 
-  /* ---------------- Weekly logic ---------------- */
+ 
   const thisWeekProjectSet = new Set(
     checkIns.filter(c => isCurrentWeek(c.timeStamp)).map(c => c.projectId)
   );
@@ -106,50 +105,55 @@ export default function CheckInsList() {
                 className="border-0 bg-white hover:shadow-xl
                            hover:-translate-y-1 transition-all duration-300"
               >
-                <CardBody className="flex items-center justify-between">
-                  <div>
-                    <h3 className="font-semibold text-gray-900">
-                      {project.name}
-                    </h3>
-                    <p className="text-sm text-gray-600">
-                      Client: {project.clientEmail || "N/A"}
-                    </p>
-                  </div>
+              <CardBody className="flex items-center justify-between p-4 bg-white rounded-xl shadow hover:shadow-md transition-all">
 
-                  {ended || submitted ? (
-                    <span className="text-sm font-semibold text-gray-500">
-                      {ended ? "Project Ended" : "Submitted this week"}
-                    </span>
-                  ) : (
-                    <Link
-                      href={{
-                        pathname: `/employee/check-ins/${project._id}`,
-                        query: {
-                          id: project._id,
-                          name: project.name,
-                          description: project.description,
-                          clientEmail: project.clientEmail,
-                          startDate: project.startDate,
-                          endDate: project.endDate,
-                          adminId: project.adminId,
-                          adminName: project.adminName,
-                          employeeList: JSON.stringify(
-                            project.employeeList || []
-                          ),
-                        },
-                      }}
-                    >
-                      <Button size="sm">New Check-in</Button>
-                    </Link>
-                  )}
-                </CardBody>
+  <div>
+    <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+      📁 {project.name}
+    </h3>
+    <p className="text-sm text-gray-600">
+      Client: <span className="font-medium">{project.clientEmail || "N/A"}</span>
+    </p>
+  </div>
+
+  {ended || submitted ? (
+    <span className="text-sm font-semibold text-gray-500">
+      {ended ? "✅ Project Ended" : "📤 Submitted this week"}
+    </span>
+  ) : (
+    <Link
+      href={{
+        pathname: `/employee/check-ins/${project._id}`,
+        query: {
+          id: project._id,
+          name: project.name,
+          description: project.description,
+          clientEmail: project.clientEmail,
+          startDate: project.startDate,
+          endDate: project.endDate,
+          adminId: project.adminId,
+          adminName: project.adminName,
+          employeeList: JSON.stringify(project.employeeList || []),
+        },
+      }}
+    >
+      <Button
+        size="sm"
+        className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md shadow-sm transition"
+      >
+        ✏️ New Check-in
+      </Button>
+    </Link>
+  )}
+</CardBody>
+
               </Card>
             );
           })}
         </div>
       </div>
 
-      {/* ---------------- Timeline ---------------- */}
+     
       <div>
         <h2 className="text-2xl font-bold text-gray-900 mb-6">
           Check-in Timeline
@@ -179,107 +183,95 @@ export default function CheckInsList() {
                            hover:shadow-xl hover:-translate-y-1
                            transition-all duration-300"
               >
-                <CardBody className="relative space-y-4">
-                  {/* dot */}
-                  <div
-                    className="absolute -left-8 top-6 w-4 h-4 rounded-full
-                               bg-gradient-to-r from-indigo-500 to-cyan-500"
-                  />
+               <CardBody className="relative space-y-5 p-6 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all">
 
-                  {/* Header */}
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="text-lg font-bold text-gray-900">
-                        {checkIn.projectName}
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        Client: {checkIn.clientEmail || "N/A"}
-                      </p>
-                    </div>
+  {/* Timeline Dot */}
+  <div
+    className="absolute -left-8 top-8 w-4 h-4 rounded-full
+               bg-gradient-to-r from-indigo-500 to-cyan-500 shadow-md"
+  />
 
-                    <div className="text-right text-xs text-gray-500">
-                      <div className="font-semibold">
-                        Week {checkIn.week}
-                      </div>
-                      <div>
-                        {new Date(checkIn.timeStamp).toLocaleDateString()}
-                      </div>
-                    </div>
-                  </div>
+  {/* Header */}
+  <div className="flex items-start justify-between">
+    <div>
+      <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+        📌 {checkIn.projectName}
+      </h3>
+      <p className="text-sm text-gray-600">
+        Client: <span className="font-medium">{checkIn.clientEmail || "N/A"}</span>
+      </p>
+    </div>
 
-                  {/* Summary */}
-                  <div
-                    className="rounded-xl p-4
-                               bg-gradient-to-br from-indigo-50 to-cyan-50"
-                  >
-                    <p className="text-xs font-semibold text-gray-500 mb-1">
-                      📌 Progress Summary
-                    </p>
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      {checkIn.progressSummary || "No summary provided"}
-                    </p>
-                  </div>
+    <div className="text-right text-xs text-gray-500">
+      <div className="font-semibold">Week {checkIn.week}</div>
+      <div>{new Date(checkIn.timeStamp).toLocaleDateString()}</div>
+    </div>
+  </div>
 
-                  {/* Blockers */}
-                  <div className="rounded-xl p-4 bg-gray-50">
-                    <p className="text-xs font-semibold text-gray-500 mb-1">
-                      🚧 Blockers
-                    </p>
-                    <p className="text-sm text-gray-700">
-                      {checkIn.blockers || "No blockers reported"}
-                    </p>
-                  </div>
+  {/* Progress Summary */}
+  <div className="rounded-xl p-4 bg-gradient-to-br from-indigo-50 to-cyan-50 border border-indigo-100">
+    <p className="text-xs font-semibold text-gray-500 mb-1">📈 Progress Summary</p>
+    <p className="text-sm text-gray-700 leading-relaxed">
+      {checkIn.progressSummary || "No summary provided"}
+    </p>
+  </div>
 
-                  {/* Metrics */}
-                  <div className="grid grid-cols-2 gap-4 pt-2">
-                    {/* Completion */}
-                    <div>
-                      <p className="text-xs font-semibold text-gray-500 mb-1">
-                        ✅ Completion
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                          <div
-                            className="h-full rounded-full"
-                            style={{
-                              width: `${checkIn.completionPercentage}%`,
-                              background:
-                                checkIn.completionPercentage >= 80
-                                  ? "linear-gradient(to right,#22c55e,#16a34a)"
-                                  : checkIn.completionPercentage >= 50
-                                  ? "linear-gradient(to right,#facc15,#eab308)"
-                                  : "linear-gradient(to right,#fb7185,#e11d48)",
-                            }}
-                          />
-                        </div>
-                        <span className="text-xs font-bold text-gray-700">
-                          {checkIn.completionPercentage ||0}%
-                        </span>
-                      </div>
-                    </div>
+  {/* Blockers */}
+  <div className="rounded-xl p-4 bg-gray-50 border border-gray-200">
+    <p className="text-xs font-semibold text-gray-500 mb-1">🚧 Blockers</p>
+    <p className="text-sm text-gray-700">
+      {checkIn.blockers || "No blockers reported"}
+    </p>
+  </div>
 
-                    {/* Confidence */}
-                    <div>
-                      <p className="text-xs font-semibold text-gray-500 mb-1">
-                        🔥 Confidence
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                          <div
-                            className="h-full rounded-full
-                                       bg-gradient-to-r from-indigo-500 to-cyan-500"
-                            style={{
-                              width: `${(checkIn.confidenceLevel  / 5) * 100}%`,
-                            }}
-                          />
-                        </div>
-                        <span className="text-xs font-bold text-gray-700">
-                          {checkIn.confidenceLevel}/5
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </CardBody>
+  {/* Metrics */}
+  <div className="grid grid-cols-2 gap-4 pt-2">
+
+    {/* Completion */}
+    <div>
+      <p className="text-xs font-semibold text-gray-500 mb-1">✅ Completion</p>
+      <div className="flex items-center gap-2">
+        <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+          <div
+            className="h-full rounded-full transition-all duration-500"
+            style={{
+              width: `${checkIn.completionPercentage || 0}%`,
+              background:
+                checkIn.completionPercentage >= 80
+                  ? "linear-gradient(to right,#22c55e,#16a34a)"
+                  : checkIn.completionPercentage >= 50
+                  ? "linear-gradient(to right,#facc15,#eab308)"
+                  : "linear-gradient(to right,#fb7185,#e11d48)",
+            }}
+          />
+        </div>
+        <span className="text-sm font-bold text-gray-700">
+          {checkIn.completionPercentage || 0}%
+        </span>
+      </div>
+    </div>
+
+    {/* Confidence */}
+    <div>
+      <p className="text-xs font-semibold text-gray-500 mb-1">🔥 Confidence</p>
+      <div className="flex items-center gap-2">
+        <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+          <div
+            className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-indigo-500 to-cyan-500"
+            style={{
+              width: `${((checkIn.confidenceLevel || 0) / 5) * 100}%`,
+            }}
+          />
+        </div>
+        <span className="text-sm font-bold text-gray-700">
+          {checkIn.confidenceLevel || 0}/5
+        </span>
+      </div>
+    </div>
+
+  </div>
+</CardBody>
+
               </Card>
             ))}
           </div>

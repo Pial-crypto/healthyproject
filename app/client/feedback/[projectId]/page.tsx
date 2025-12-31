@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createFeedback } from "@/lib/utils/api";
 import { useProtectedRoute } from "@/lib/hooks/useProtectedRoute";
+import { CardBody } from "@/app/components";
 
 
 export default function FeedbackPage() {
@@ -103,149 +104,152 @@ useProtectedRoute(setUser,{},"client",setIsLoading)
             Share your experience with the project team
           </p>
         </div>
+<CardBody>
+      <form onSubmit={handleSubmit} className="space-y-8" hover>
 
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-6">
-            {errors.submit && (
-              <div className="bg-red-100 text-red-700 p-3 rounded text-sm">{errors.submit}</div>
-            )}
+  {/* Submit Error */}
+  {errors.submit && (
+    <div className="bg-red-100 text-red-700 p-4 rounded-lg text-base font-semibold">
+      {errors.submit}
+    </div>
+  )}
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                How satisfied are you with the project progress?
-              </label>
-              <div className="flex gap-4">
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <label key={rating} className="cursor-pointer">
-                    <input
-                      type="radio"
-                      name="satisfactionRating"
-                      value={rating}
-                      checked={parseInt(formData.satisfactionRating) === rating}
-                      onChange={handleChange}
-                      className="sr-only"
-                    />
-                    <span className="text-3xl transition-transform hover:scale-110 block">
-                      {parseInt(formData.satisfactionRating) >= rating ? (
-                        <span className="text-yellow-400">★</span>
-                      ) : (
-                        <span className="text-gray-300">☆</span>
-                      )}
-                    </span>
-                  </label>
-                ))}
-              </div>
-              {errors.satisfactionRating && (
-                <p className="text-red-500 text-sm mt-2">{errors.satisfactionRating}</p>
-              )}
-            </div>
+  {/* Satisfaction Rating */}
+  <div>
+    <label className="block text-lg font-semibold text-gray-800 mb-3">
+      How satisfied are you with the project progress? ⭐
+    </label>
+    <div className="flex gap-5">
+      {[1, 2, 3, 4, 5].map((rating) => (
+        <label key={rating} className="cursor-pointer">
+          <input
+            type="radio"
+            name="satisfactionRating"
+            value={rating}
+            checked={parseInt(formData.satisfactionRating) === rating}
+            onChange={handleChange}
+            className="sr-only"
+          />
+          <span className="text-4xl transition-transform hover:scale-125 block">
+            {parseInt(formData.satisfactionRating) >= rating ? "🌟" : "☆"}
+          </span>
+        </label>
+      ))}
+    </div>
+    {errors.satisfactionRating && (
+      <p className="text-red-600 text-sm mt-2">{errors.satisfactionRating}</p>
+    )}
+  </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                How clear is the team's communication?
-              </label>
-              <div className="flex gap-4">
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <label key={rating} className="cursor-pointer">
-                    <input
-                      type="radio"
-                      name="communicationClarity"
-                      value={rating}
-                      checked={parseInt(formData.communicationClarity) === rating}
-                      onChange={handleChange}
-                      className="sr-only"
-                    />
-                    <span className="text-3xl transition-transform hover:scale-110 block">
-                      {parseInt(formData.communicationClarity) >= rating ? (
-                        <span className="text-blue-400">★</span>
-                      ) : (
-                        <span className="text-gray-300">☆</span>
-                      )}
-                    </span>
-                  </label>
-                ))}
-              </div>
-              {errors.communicationClarity && (
-                <p className="text-red-500 text-sm mt-2">{errors.communicationClarity}</p>
-              )}
-            </div>
+  {/* Communication Rating */}
+  <div>
+    <label className="block text-lg font-semibold text-gray-800 mb-3">
+      How clear is the team's communication? 💬
+    </label>
+    <div className="flex gap-5">
+      {[1, 2, 3, 4, 5].map((rating) => (
+        <label key={rating} className="cursor-pointer">
+          <input
+            type="radio"
+            name="communicationClarity"
+            value={rating}
+            checked={parseInt(formData.communicationClarity) === rating}
+            onChange={handleChange}
+            className="sr-only"
+          />
+          <span className="text-4xl transition-transform hover:scale-125 block">
+            {parseInt(formData.communicationClarity) >= rating ? "💎" : "☆"}
+          </span>
+        </label>
+      ))}
+    </div>
+    {errors.communicationClarity && (
+      <p className="text-red-600 text-sm mt-2">{errors.communicationClarity}</p>
+    )}
+  </div>
 
-            <div>
-              <label htmlFor="comments" className="block text-sm font-medium text-gray-700 mb-2">
-                Additional Comments (Optional)
-              </label>
-              <textarea
-                id="comments"
-                name="comments"
-                rows={3}
-                placeholder="Any feedback for the team?"
-                value={formData.comments}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
+  {/* Additional Comments */}
+  <div>
+    <label htmlFor="comments" className="block text-lg font-semibold text-gray-800 mb-2">
+      Additional Comments (Optional) 📝
+    </label>
+    <textarea
+      id="comments"
+      name="comments"
+      rows={4}
+      placeholder="Any feedback for the team?"
+      value={formData.comments}
+      onChange={handleChange}
+      className="w-full border border-gray-300 rounded-xl p-3 text-base focus:ring-blue-500 focus:border-blue-500"
+    />
+  </div>
 
-            <div className="border-t border-gray-200 pt-6">
-              <label className="flex items-start gap-3 cursor-pointer mb-4">
-                <input
-                  type="checkbox"
-                  name="flaggedIssue"
-                  checked={formData.flaggedIssue}
-                  onChange={handleChange}
-                  className="mt-1 rounded"
-                />
-                <div>
-                  <p className="font-medium text-gray-900">Flag an Issue</p>
-                  <p className="text-sm text-gray-600 mt-1">
-                    Is there something we should know about?
-                  </p>
-                </div>
-              </label>
-              {formData.flaggedIssue && (
-                <div>
-                  <label htmlFor="issueDescription" className="block text-sm font-medium text-gray-700 mb-2">
-                    Issue Description
-                  </label>
-                  <textarea
-                    id="issueDescription"
-                    name="issueDescription"
-                    rows={4}
-                    placeholder="Please describe the issue in detail"
-                    value={formData.issueDescription}
-                    onChange={handleChange}
-                    className={`w-full border rounded-md p-2 focus:ring-blue-500 focus:border-blue-500 ${
-                      errors.issueDescription ? "border-red-500" : ""
-                    }`}
-                  />
-                  {errors.issueDescription && (
-                    <p className="text-red-500 text-sm mt-1">{errors.issueDescription}</p>
-                  )}
-                </div>
-              )}
-            </div>
+  {/* Flagged Issue Section */}
+  <div className="border-t border-gray-200 pt-6">
+    <label className="flex items-start gap-4 cursor-pointer mb-4">
+      <input
+        type="checkbox"
+        name="flaggedIssue"
+        checked={formData.flaggedIssue}
+        onChange={handleChange}
+        className="mt-1 rounded-lg"
+      />
+      <div>
+        <p className="font-semibold text-gray-900 text-lg">Flag an Issue ⚠️</p>
+        <p className="text-base text-gray-600 mt-1">
+          Is there something we should know about?
+        </p>
+      </div>
+    </label>
 
-            <div className="bg-blue-50 text-blue-800 p-3 rounded text-sm">
-              Your feedback helps the team track project health and address concerns early.
-            </div>
-          </div>
+    {formData.flaggedIssue && (
+      <div className="mt-4">
+        <label htmlFor="issueDescription" className="block text-lg font-semibold text-gray-800 mb-2">
+          Issue Description 🛑
+        </label>
+        <textarea
+          id="issueDescription"
+          name="issueDescription"
+          rows={5}
+          placeholder="Please describe the issue in detail"
+          value={formData.issueDescription}
+          onChange={handleChange}
+          className={`w-full border rounded-xl p-3 text-base focus:ring-blue-500 focus:border-blue-500 ${
+            errors.issueDescription ? "border-red-500" : ""
+          }`}
+        />
+        {errors.issueDescription && (
+          <p className="text-red-600 text-sm mt-1">{errors.issueDescription}</p>
+        )}
+      </div>
+    )}
+  </div>
 
-          <div className="flex gap-3 justify-end mt-6">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-400"
-            >
-              {isSubmitting ? "Submitting..." : "Submit Feedback"}
-            </button>
-          </div>
-        </form>
+  {/* Info Banner */}
+  <div className="bg-blue-50 text-blue-800 p-4 rounded-xl text-base font-medium">
+    💡 Your feedback helps the team track project health and address concerns early.
+  </div>
+
+  {/* Form Actions */}
+  <div className="flex gap-4 justify-end mt-6">
+    <button
+      type="button"
+      onClick={() => router.back()}
+      className="px-5 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-100 text-lg font-medium transition"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      disabled={isSubmitting}
+      className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:bg-blue-400 text-lg font-semibold transition"
+    >
+      {isSubmitting ? "Submitting..." : "Submit Feedback"}
+    </button>
+  </div>
+</form>
+</CardBody>
+
       </div>
     </div>
   );

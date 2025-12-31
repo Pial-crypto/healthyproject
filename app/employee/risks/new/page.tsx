@@ -16,7 +16,7 @@ import {
 } from "@/app/components";
 
 import { createRisk } from "@/lib/utils/api";
-import { SkeletonList } from "@/app/components/skeleton";
+import { SkeletonList } from "@/app/components/Skeleton";
 import { useProtectedRoute } from "@/lib/hooks/useProtectedRoute";
 import { validateRiskForm } from "@/lib/utils/employeeHelpers";
 import { createRiskHook, initialRiskHook } from "@/lib/hooks/employee";
@@ -101,79 +101,100 @@ initialRiskHook(projects,formData,setFormData)
       </div>
 
       <Card className="max-w-2xl">
-        <form onSubmit={handleSubmit}>
-          <CardBody className="space-y-6">
-            {errors.submit && (
-              <Alert type="error" message={errors.submit} />
-            )}
+     <form onSubmit={handleSubmit}>
+  <CardBody className="space-y-6">
+    {/* Submission Error */}
+    {errors.submit && (
+      <Alert type="error" message={errors.submit} />
+    )}
 
-            <Select
-              label="Project"
-              name="projectId"
-              value={formData.projectId}
-              onChange={handleChange}
-              options={projectOptions}
-              error={errors.projectId}
-            />
+    {/* Project Select */}
+    <Select
+      label="🗂️ Project"
+      name="projectId"
+      value={formData.projectId}
+      onChange={handleChange}
+      options={projectOptions}
+      error={errors.projectId}
+      className="text-base font-medium text-gray-900"
+    />
 
-            <Input
-              label="Risk Title"
-              name="title"
-              placeholder="e.g., Server Downtime, Resource Shortage"
-              value={formData.title}
-              onChange={handleChange}
-              error={errors.title}
-            />
+    {/* Risk Title */}
+    <Input
+      label="⚠️ Risk Title"
+      name="title"
+      placeholder="e.g., Server Downtime, Resource Shortage"
+      value={formData.title}
+      onChange={handleChange}
+      error={errors.title}
+      className="text-base font-semibold text-gray-900"
+    />
 
-       <Textarea
-  name="description"         
-  label="Description *"
-  placeholder="Risk description..."
-  value={formData.description}
-  onChange={handleChange}      // ✅ Required
-  error={errors.description}   
-/>
+    {/* Description */}
+    <Textarea
+      name="description"
+      label="📝 Description *"
+      placeholder="Describe the risk in detail..."
+      value={formData.description}
+      onChange={handleChange}
+      error={errors.description}
+      className="text-base text-gray-800"
+      rows={4}
+    />
 
-            <Select
-              label="Severity Level"
-              name="severity"
-              value={formData.severity}
-              onChange={handleChange}
-              options={[
-                { value: "low", label: "Low - Minor impact" },
-                { value: "medium", label: "Medium - Moderate impact" },
-                { value: "high", label: "High - Critical impact" },
-              ]}
-            />
+    {/* Severity Select */}
+    <Select
+      label="🔥 Severity Level"
+      name="severity"
+      value={formData.severity}
+      onChange={handleChange}
+      options={[
+        { value: "low", label: "Low - Minor impact" },
+        { value: "medium", label: "Medium - Moderate impact" },
+        { value: "high", label: "High - Critical impact" },
+      ]}
+      className="text-base font-medium text-gray-900"
+    />
 
-            <Textarea
-              label="Mitigation Plan"
-              name="mitigationPlan"
-              rows={4}
-              value={formData.mitigationPlan}
-              onChange={handleChange}
-              error={errors.mitigationPlan}
-            />
+    {/* Mitigation Plan */}
+    <Textarea
+      label="🛡️ Mitigation Plan"
+      name="mitigationPlan"
+      placeholder="Describe mitigation steps..."
+      value={formData.mitigationPlan}
+      onChange={handleChange}
+      error={errors.mitigationPlan}
+      className="text-base text-gray-800"
+      rows={4}
+    />
 
-            <Alert
-              type="info"
-              message="High-severity risks will be escalated to project managers and clients."
-            />
-          </CardBody>
+    {/* Info Alert */}
+    <Alert
+      type="info"
+      message="⚠️ High-severity risks will be escalated to project managers and clients."
+    />
+  </CardBody>
 
-          <CardFooter className="flex justify-end gap-3">
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={() => router.back()}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" isLoading={isSubmitting}>
-              Report Risk
-            </Button>
-          </CardFooter>
-        </form>
+  {/* Footer Buttons */}
+  <CardFooter className="flex justify-end gap-3 pt-4">
+    <Button
+      type="button"
+      variant="secondary"
+      onClick={() => router.back()}
+      className="text-base font-medium px-5 py-2"
+    >
+      ❌ Cancel
+    </Button>
+    <Button
+      type="submit"
+      isLoading={isSubmitting}
+      className="text-base font-semibold px-5 py-2"
+    >
+      📤 Report Risk
+    </Button>
+  </CardFooter>
+</form>
+
       </Card>
     </div>
   );

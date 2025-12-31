@@ -18,7 +18,7 @@ import Link from "next/link";
 import { createCheckIn } from "@/lib/utils/api";
 import { useProtectedRoute } from "@/lib/hooks/useProtectedRoute";
 import { Skeleton } from "@mui/material";
-import { SkeletonList } from "@/app/components/skeleton";
+import { SkeletonList } from "@/app/components/Skeleton";
 import { createCheckInHook, initailFormHook } from "@/lib/hooks/employee";
 import { validateCheckIn } from "@/lib/utils/employeeHelpers";
 

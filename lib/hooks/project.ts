@@ -1,3 +1,5 @@
+"use client"
+
 import { useRouter } from "next/router";
 import { createProject, createUser, updateProject } from "../utils/api";
 import toast from "react-hot-toast";

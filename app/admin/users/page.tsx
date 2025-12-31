@@ -12,7 +12,7 @@ import {
 import { useProtectedRoute } from "@/lib/hooks/useProtectedRoute";
 import { createEmployeeHook } from "@/lib/hooks/employee";
 import { validateEmployeeForm } from "@/lib/utils/adminHelpers";
-import { SkeletonList } from "@/app/components/skeleton";
+import { SkeletonList } from "@/app/components/Skeleton";
 
 export default function EmployeeManagementPage() {
   const router = useRouter();
@@ -174,44 +174,44 @@ export default function EmployeeManagementPage() {
             const assignedProjects = getEmployeeProjects(emp.email);
 
             return (
-              <Card
-                key={emp.email}
-                className="border-0 shadow-lg hover:shadow-xl transition bg-gradient-to-br from-white to-gray-50"
-              >
-                <CardBody className="space-y-4">
-                  {/* Email */}
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-900">
-                      {emp.email}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      Assigned to{" "}
-                      <span className="font-semibold text-blue-600">
-                        {assignedProjects.length}
-                      </span>{" "}
-                      project{assignedProjects.length !== 1 && "s"}
-                    </p>
-                  </div>
+           <Card
+  key={emp.email}
+  className="border-0 shadow-lg hover:shadow-2xl transition-all rounded-2xl bg-gradient-to-br from-white to-gray-50"
+>
+  <CardBody className="space-y-5 p-5">
 
-                  {/* Project Chips */}
-                  <div className="flex flex-wrap gap-2">
-                    {assignedProjects.length === 0 ? (
-                      <span className="text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-500">
-                        No projects assigned
-                      </span>
-                    ) : (
-                      assignedProjects.map(p => (
-                        <span
-                          key={p._id}
-                          className="text-xs font-semibold px-3 py-1 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700"
-                        >
-                          {p.name}
-                        </span>
-                      ))
-                    )}
-                  </div>
-                </CardBody>
-              </Card>
+    {/* Email Section */}
+    <div>
+      <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        📧 {emp.email}
+      </h3>
+      <p className="text-base text-gray-600 mt-1">
+        Assigned to{" "}
+        <span className="font-bold text-blue-600">{assignedProjects.length}</span>{" "}
+        project{assignedProjects.length !== 1 && "s"} 🗂️
+      </p>
+    </div>
+
+    {/* Project Chips */}
+    <div className="flex flex-wrap gap-3 mt-3">
+      {assignedProjects.length === 0 ? (
+        <span className="text-sm px-4 py-2 rounded-full bg-gray-100 text-gray-500 flex items-center gap-1">
+          ❌ No projects assigned
+        </span>
+      ) : (
+        assignedProjects.map((p) => (
+          <span
+            key={p._id}
+            className="text-sm font-semibold px-4 py-2 rounded-full bg-gradient-to-r from-blue-200 to-indigo-200 text-blue-800 hover:from-blue-300 hover:to-indigo-300 transition-all  flex items-center gap-1"
+          >
+            📌 {p.name}
+          </span>
+        ))
+      )}
+    </div>
+  </CardBody>
+</Card>
+
             );
           })
         )}

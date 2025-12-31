@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
+  // Next.js specific cookies access
   const token = req.cookies.get("session")?.value;
 
   if (!token) {
@@ -12,7 +13,7 @@ export async function GET(req: Request) {
     const payload = jwt.verify(
       token,
       process.env.JWT_WEB_TOKEN!
-    ) as any;
+    ) as { user: any };
 
     return NextResponse.json({
       authenticated: true,

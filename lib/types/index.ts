@@ -5,7 +5,7 @@ export enum UserRole {
   CLIENT = "client",
 }
 
-// lib/types.ts
+
 
 export interface Project {
   _id: string;
@@ -19,6 +19,30 @@ export interface Project {
   adminName: string;
   timeStamp: string;
 }
+
+export interface CookieUser {
+  name:String,
+  role:String,
+  email:String,
+  id:String
+}
+export interface RiskForm{
+      projectId: String,
+    title: String,
+    severity: String,
+    description:String,
+    mitigationPlan:String,
+}
+export interface checkInForm{
+   projectId:String,
+    employeeId: String,
+    week: String,
+    progressSummary: String,
+    blockers: String,
+    confidenceLevel: String,
+    completionPercentage: String,
+}
+
 
 export interface EmployeeCheckIn {
   _id: string;
@@ -50,7 +74,7 @@ export interface Risk {
   mitigationPlan: string;
   severity: RiskSeverity | string;
   solved: boolean;
-  status?: "open" | "closed"; // optional
+  status?: "open" | "closed"; 
   timeStamp: string;
 }
 

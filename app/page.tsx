@@ -1,12 +1,13 @@
 "use client";
 
+import { CookieUser } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
 export default function Home() {
   const router = useRouter();
-  const [user,setUser]=useState(null)
+  const [user,setUser]=useState<CookieUser>()
   const [loading,setIsLoadingUser]=useState(true);
 useEffect(() => {
   async function checkUser() {

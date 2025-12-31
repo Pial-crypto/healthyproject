@@ -1,6 +1,9 @@
+"use client"
+
 import { useEffect } from "react";
 import { createCheckIn, createRisk, createUser, fetchEmployee, updateProject } from "../utils/api";
 import { generateRandomPassword } from "../utils/passWord";
+import { checkInForm, Project, RiskForm } from "../types";
 
 export const createEmployeeHook=async (newEmployee:any,setErrors:any,user:any,setProjects:any,setEmployeeList:any,setShowAddForm:any,setNewEmployee:any
     ,setIsSubmitting:any
@@ -57,7 +60,7 @@ export const initailFormHook=(user:any,projectId:any,setFormData:any)=>{
             Math.ceil((now.getDate() + (now.getDay() === 0 ? -6 : now.getDay() - 1)) / 7)
           ).padStart(2, "0")}`;
     
-          setFormData((prev) => ({
+          setFormData((prev:checkInForm) => ({
             ...prev,
             projectId,
             employeeId: user._id || user.id || "",
@@ -92,7 +95,7 @@ export const createCheckInHook=async (formData:any,projectId:any,projectName:any
     }
 }
 
-export const createRiskHook=async (formData:any,projects:any,router:any,user:any,setErrors:any,setIsSubmitting:any)=>{
+export const createRiskHook=async (formData:any,projects:Project[],router:any,user:any,setErrors:any,setIsSubmitting:any)=>{
       try {
       const selectedProject = projects.find(
         (p) => p._id === formData.projectId
@@ -123,7 +126,7 @@ export const createRiskHook=async (formData:any,projects:any,router:any,user:any
 export const initialRiskHook=(projects:any,formData:any,setFormData:any)=>{
     useEffect(() => {
     if (projects.length > 0 && !formData.projectId) {
-      setFormData((prev) => ({
+      setFormData((prev:RiskForm) => ({
         ...prev,
         projectId: projects[0]._id,
       }));

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Card, CardBody, CardHeader, Button, Tabs,  } from "@/app/components";
-import { SkeletonList } from "@/app/components/skeleton";
+import { SkeletonList } from "@/app/components/Skeleton";
 import Link from "next/link";
 import { useProtectedRoute } from "@/lib/hooks/useProtectedRoute";
 import { calculateHealth, getHealthStatus, getHealthColor, getHealthBgColor } from "@/lib/utils/healthScoreCalculator";

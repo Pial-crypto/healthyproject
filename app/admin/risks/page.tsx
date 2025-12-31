@@ -8,18 +8,20 @@ import {
   EmptyState,
   Button
 } from "@/app/components";
-import { SkeletonList } from "@/app/components/skeleton";
+import { SkeletonList } from "@/app/components/Skeleton";
 import { useProtectedRoute } from "@/lib/hooks/useProtectedRoute";
 import { motion } from "framer-motion";
 import { RiskColumn } from "@/app/components/RiskColumn";
+import { Project, Risk } from "@/lib/types";
 
 
 export default function AdminRisksPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
-  const [risks, setRisks] = useState([]);
-  const [projects, setProjects] = useState([]);
+  const [risks, setRisks] = useState<Risk[]>([]);
+ const [projects, setProjects] = useState<Project[]>([]);
+
 
   // Modal state
   const [selectedRisk, setSelectedRisk] = useState<any>(null);

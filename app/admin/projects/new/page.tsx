@@ -14,7 +14,7 @@ import Link from "next/link";
 import { username } from "@/lib/utils/name";
 import { useProtectedRoute } from "@/lib/hooks/useProtectedRoute";
 import { validateForm } from "@/lib/utils/adminHelpers";
-import { SkeletonList } from "@/app/components/skeleton";
+import { SkeletonList } from "@/app/components/Skeleton";
 import { createProjectHook } from "@/lib/hooks/project";
 
 export default function NewProjectPage() {
@@ -91,75 +91,95 @@ createProjectHook(formData,user,username,setShowSuccess,setIsSubmitting,router)
             />
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div>
-              <h2 className="text-xl font-semibold mb-4">
-                Project Details
-              </h2>
+      <form onSubmit={handleSubmit} className="space-y-8 p-6 bg-white shadow-lg rounded-2xl">
 
-              <div className="space-y-4">
-                <Input
-                  label="Project Name *"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  error={errors.name}
-                />
+  {/* Form Title */}
+  <div>
+    <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+      📝 Project Details
+    </h2>
 
-                <Textarea
-                  label="Description *"
-                  name="description"
-                  rows={3}
-                  value={formData.description}
-                  onChange={handleChange}
-                  error={errors.description}
-                />
+    <div className="space-y-5">
 
-                {/*  CLIENT EMAIL INPUT */}
-                <Input
-                  label="Client Email *"
-                  name="clientEmail"
-                  type="email"
-                  placeholder="client@company.com"
-                  value={formData.clientEmail}
-                  onChange={handleChange}
-                  error={errors.clientEmail}
-                />
+      {/* Project Name */}
+      <Input
+        label="Project Name *"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        error={errors.name}
+        className="text-lg rounded-lg"
+      />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    label="Start Date *"
-                    type="date"
-                    name="startDate"
-                    value={formData.startDate}
-                    onChange={handleChange}
-                    error={errors.startDate}
-                  />
+      {/* Description */}
+      <Textarea
+        label="Description *"
+        name="description"
+        rows={4}
+        value={formData.description}
+        onChange={handleChange}
+        error={errors.description}
+        className="text-lg rounded-lg"
+      />
 
-                  <Input
-                    label="End Date *"
-                    type="date"
-                    name="endDate"
-                    value={formData.endDate}
-                    onChange={handleChange}
-                    error={errors.endDate}
-                  />
-                </div>
-              </div>
-            </div>
+      {/* Client Email */}
+      <Input
+        label="Client Email *"
+        name="clientEmail"
+        type="email"
+        placeholder="client@company.com"
+        value={formData.clientEmail}
+        onChange={handleChange}
+        error={errors.clientEmail}
+        className="text-lg rounded-lg"
+      />
 
-              <h2 className="text-xl font-semibold mb-4"/>
+      {/* Dates */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <Input
+          label="Start Date *"
+          type="date"
+          name="startDate"
+          value={formData.startDate}
+          onChange={handleChange}
+          error={errors.startDate}
+          className="text-lg rounded-lg"
+        />
 
-            <div className="flex gap-3 pt-4">
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Creating..." : "Create Project"}
-              </Button>
+        <Input
+          label="End Date *"
+          type="date"
+          name="endDate"
+          value={formData.endDate}
+          onChange={handleChange}
+          error={errors.endDate}
+          className="text-lg rounded-lg"
+        />
+      </div>
+    </div>
+  </div>
 
-              <Link href="/admin/projects">
-                <Button variant="secondary">Cancel</Button>
-              </Link>
-            </div>
-          </form>
+  {/* Actions */}
+  <div className="flex gap-4 pt-6">
+    <Button
+      type="submit"
+      disabled={isSubmitting}
+      className="bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-xl hover:bg-blue-700 transition"
+    >
+      {isSubmitting ? "Creating..." : "Create Project"} ✨
+    </Button>
+
+    <Link href="/admin/projects">
+      <Button
+        variant="secondary"
+        className="text-lg font-semibold px-6 py-3 rounded-xl hover:bg-gray-100 transition"
+      >
+        Cancel ❌
+      </Button>
+    </Link>
+  </div>
+</form>
+
         </CardBody>
       </Card>
     </div>

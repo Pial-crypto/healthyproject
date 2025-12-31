@@ -2,7 +2,7 @@
 import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.DATABASE_URL;
-console.log("DATABASE_URL in route:", MONGODB_URI);
+//console.log("DATABASE_URL in route:", MONGODB_URI);
 
 
 

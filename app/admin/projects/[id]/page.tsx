@@ -12,7 +12,7 @@ import {
   EmptyState,
 } from "@/app/components";
 import Link from "next/link";
-import { SkeletonList } from "@/app/components/skeleton";
+import { SkeletonList } from "@/app/components/Skeleton";
 import { useProtectedRoute } from "@/lib/hooks/useProtectedRoute";
 import { validateForm } from "@/lib/utils/adminHelpers";
 import { updateProjectHook } from "@/lib/hooks/project";
@@ -134,152 +134,146 @@ console.log("sdadsfsdf")
             />
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Project Details Section */}
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                Project Details
-              </h2>
-              <div className="space-y-4">
-                <Input
-                  label="Project Name *"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="e.g., E-commerce Platform Redesign"
-                  error={errors.name}
-                />
+       <form onSubmit={handleSubmit} className="space-y-8 p-6 bg-white shadow-lg rounded-2xl">
 
-                <Textarea
-                  label="Description *"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  placeholder="Describe the project"
-                  rows={3}
-                  error={errors.description}
-                />
+  {/* Project Details Section */}
+  <div>
+    <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+      📝 Project Details
+    </h2>
+    <div className="space-y-5">
+      <Input
+        label="Project Name *"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        placeholder="e.g., E-commerce Platform Redesign"
+        error={errors.name}
+        className="text-lg rounded-lg"
+      />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    label="Start Date *"
-                    type="date"
-                    name="startDate"
-                    value={formData.startDate}
-                    onChange={handleChange}
-                    error={errors.startDate}
-                  />
+      <Textarea
+        label="Description *"
+        name="description"
+        value={formData.description}
+        onChange={handleChange}
+        placeholder="Describe the project"
+        rows={4}
+        error={errors.description}
+        className="text-lg rounded-lg"
+      />
 
-                  <Input
-                    label="End Date *"
-                    type="date"
-                    name="endDate"
-                    value={formData.endDate}
-                    onChange={handleChange}
-                    error={errors.endDate}
-                  />
-                </div>
-              </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <Input
+          label="Start Date *"
+          type="date"
+          name="startDate"
+          value={formData.startDate}
+          onChange={handleChange}
+          error={errors.startDate}
+          className="text-lg rounded-lg"
+        />
+        <Input
+          label="End Date *"
+          type="date"
+          name="endDate"
+          value={formData.endDate}
+          onChange={handleChange}
+          error={errors.endDate}
+          className="text-lg rounded-lg"
+        />
+      </div>
+    </div>
+  </div>
+
+  {/* Project Information Section */}
+  <div className="bg-gray-50 rounded-2xl p-6 space-y-5 shadow-inner">
+    <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+      ℹ️ Project Information
+    </h2>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <p className="text-sm font-medium text-gray-600 mb-1">Client</p>
+        <p className="text-lg font-semibold text-gray-900">📧 {initialProject.clientEmail || "N/A"}</p>
+      </div>
+      <div>
+        <p className="text-sm font-medium text-gray-600 mb-1">Team Members</p>
+        <p className="text-lg font-semibold text-gray-900">👥 {projectState.employeeList.length} assigned</p>
+      </div>
+    </div>
+
+    {/* Active employees list */}
+    {projectState.employeeList.length > 0 && (
+      <div className="mt-4">
+        <p className="text-sm font-medium text-gray-600 mb-3">Team Members:</p>
+        <div className="space-y-2">
+          {projectState.employeeList.map((empEmail: string) => (
+            <div
+              key={empEmail}
+              className="flex items-center justify-between gap-2 p-3 bg-white rounded-xl border border-gray-200 hover:shadow-sm transition"
+            >
+              <p className="text-sm font-medium text-gray-900">👤 {empEmail}</p>
+              <button
+                type="button"
+                onClick={() => handleRemoveEmployee(empEmail)}
+                className="inline-flex items-center gap-1 px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-xl border border-red-300 transition-all"
+              >
+                Remove ✕
+              </button>
             </div>
+          ))}
+        </div>
+      </div>
+    )}
 
-            {/* Project Info Section */}
-            <div className="bg-gray-50 rounded-lg p-6 space-y-4">
-              <h2 className="text-xl font-semibold text-gray-900">
-                Project Information
-              </h2>
+    {/* Removed employees preview */}
+    {removedEmployees.length > 0 && (
+      <div className="mt-4">
+        <p className="text-sm font-medium text-gray-700 mb-2">Will be removed after saving:</p>
+        <div className="flex flex-wrap gap-2">
+          {removedEmployees.map((email) => (
+            <span
+              key={email}
+              className="inline-flex items-center gap-1 rounded-full bg-red-50 px-3 py-1 text-sm font-medium text-red-700 border border-red-200"
+            >
+              ✕ {email}
+            </span>
+          ))}
+        </div>
+      </div>
+    )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">
-                    Client
-                  </p>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {initialProject.clientEmail || "N/A"}
-                  </p>
-                </div>
+    {/* No team members */}
+    {projectState.employeeList.length === 0 && removedEmployees.length === 0 && (
+      <p className="text-sm text-gray-500">No team members are currently assigned.</p>
+    )}
 
-                <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">
-                    Team Members (after update)
-                  </p>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {projectState.employeeList.length} assigned
-                  </p>
-                </div>
-              </div>
+    <p className="text-xs text-gray-500 mt-4 pt-4 border-t border-gray-200">
+      ⚠️ Removing a member here will only be applied after you click Update Project.
+    </p>
+  </div>
 
-              {/* Active employees list (with Remove button that shows cross) */}
-              {projectState.employeeList.length > 0 && (
-                <div className="mt-4">
-                  <p className="text-sm font-medium text-gray-600 mb-3">
-                    Team Members:
-                  </p>
-                  <div className="space-y-2">
-                    {projectState.employeeList.map((empEmail: string) => (
-                      <div
-                        key={empEmail}
-                        className="flex items-center justify-between gap-2 p-3 bg-white rounded border border-gray-200"
-                      >
-                        <p className="text-sm font-medium text-gray-900">
-                          {empEmail}
-                        </p>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveEmployee(empEmail)}
-                          className="inline-flex items-center gap-1 px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded border border-red-300 transition-all"
-                        >
-                          Remove
-                          <span className="text-base leading-none">✕</span>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+  {/* Buttons */}
+  <div className="flex gap-4 pt-6">
+    <Button
+      type="submit"
+      disabled={isSubmitting}
+      className="bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-xl hover:bg-blue-700 transition"
+    >
+      {isSubmitting ? "Updating..." : "Update Project"} ✨
+    </Button>
+    <Link href="/admin/projects">
+      <Button
+        variant="secondary"
+        className="text-lg font-semibold px-6 py-3 rounded-xl hover:bg-gray-100 transition"
+      >
+        Cancel ❌
+      </Button>
+    </Link>
+  </div>
+</form>
 
-              {/* Removed employees preview */}
-              {removedEmployees.length > 0 && (
-                <div className="mt-4">
-                  <p className="text-sm font-medium text-gray-700 mb-2">
-                    Will be removed after saving:
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {removedEmployees.map((email) => (
-                      <span
-                        key={email}
-                        className="inline-flex items-center gap-1 rounded-full bg-red-50 px-3 py-1 text-[11px] font-medium text-red-700 border border-red-200"
-                      >
-                        <span className="text-xs">✕</span>
-                        {email}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {projectState.employeeList.length === 0 &&
-                removedEmployees.length === 0 && (
-                  <p className="text-xs text-gray-500">
-                    No team members are currently assigned.
-                  </p>
-                )}
-
-              <p className="text-xs text-gray-500 mt-4 pt-4 border-t border-gray-200">
-                Removing a member here will only be applied after you click
-                Update Project.
-              </p>
-            </div>
-<div className="h-2"></div>
-            {/* Buttons */}
-            <div className="flex gap-3 pt-4">
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Updating..." : "Update Project"}
-              </Button>
-              <Link href="/admin/projects">
-                <Button variant="secondary">Cancel</Button>
-              </Link>
-            </div>
-          </form>
         </CardBody>
       </Card>
     </div>

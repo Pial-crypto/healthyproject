@@ -55,7 +55,7 @@ var link_1 = require("next/link");
 var name_1 = require("@/lib/utils/name");
 var useProtectedRoute_1 = require("@/lib/hooks/useProtectedRoute");
 var adminHelpers_1 = require("@/lib/utils/adminHelpers");
-var skeleton_1 = require("@/app/components/skeleton");
+var Skeleton_1 = require("@/app/components/Skeleton");
 var project_1 = require("@/lib/hooks/project");
 function NewProjectPage() {
     var _this = this;
@@ -74,7 +74,7 @@ function NewProjectPage() {
     }), formData = _e[0], setFormData = _e[1];
     var _f = react_1.useState({}), errors = _f[0], setErrors = _f[1];
     if (isLoading)
-        return React.createElement(skeleton_1.SkeletonList, null);
+        return React.createElement(Skeleton_1.SkeletonList, null);
     if (!user)
         return null;
     var handleChange = function (e) {
@@ -108,20 +108,21 @@ function NewProjectPage() {
         React.createElement(components_1.Card, { className: "max-w-3xl" },
             React.createElement(components_1.CardBody, null,
                 showSuccess && (React.createElement(components_1.Alert, { type: "success", title: "Success!", message: "Project created successfully" })),
-                React.createElement("form", { onSubmit: handleSubmit, className: "space-y-8" },
+                React.createElement("form", { onSubmit: handleSubmit, className: "space-y-8 p-6 bg-white shadow-lg rounded-2xl" },
                     React.createElement("div", null,
-                        React.createElement("h2", { className: "text-xl font-semibold mb-4" }, "Project Details"),
-                        React.createElement("div", { className: "space-y-4" },
-                            React.createElement(components_1.Input, { label: "Project Name *", name: "name", value: formData.name, onChange: handleChange, error: errors.name }),
-                            React.createElement(components_1.Textarea, { label: "Description *", name: "description", rows: 3, value: formData.description, onChange: handleChange, error: errors.description }),
-                            React.createElement(components_1.Input, { label: "Client Email *", name: "clientEmail", type: "email", placeholder: "client@company.com", value: formData.clientEmail, onChange: handleChange, error: errors.clientEmail }),
-                            React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4" },
-                                React.createElement(components_1.Input, { label: "Start Date *", type: "date", name: "startDate", value: formData.startDate, onChange: handleChange, error: errors.startDate }),
-                                React.createElement(components_1.Input, { label: "End Date *", type: "date", name: "endDate", value: formData.endDate, onChange: handleChange, error: errors.endDate })))),
-                    React.createElement("h2", { className: "text-xl font-semibold mb-4" }),
-                    React.createElement("div", { className: "flex gap-3 pt-4" },
-                        React.createElement(components_1.Button, { type: "submit", disabled: isSubmitting }, isSubmitting ? "Creating..." : "Create Project"),
+                        React.createElement("h2", { className: "text-2xl font-bold mb-6 flex items-center gap-2" }, "\uD83D\uDCDD Project Details"),
+                        React.createElement("div", { className: "space-y-5" },
+                            React.createElement(components_1.Input, { label: "Project Name *", name: "name", value: formData.name, onChange: handleChange, error: errors.name, className: "text-lg rounded-lg" }),
+                            React.createElement(components_1.Textarea, { label: "Description *", name: "description", rows: 4, value: formData.description, onChange: handleChange, error: errors.description, className: "text-lg rounded-lg" }),
+                            React.createElement(components_1.Input, { label: "Client Email *", name: "clientEmail", type: "email", placeholder: "client@company.com", value: formData.clientEmail, onChange: handleChange, error: errors.clientEmail, className: "text-lg rounded-lg" }),
+                            React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-5" },
+                                React.createElement(components_1.Input, { label: "Start Date *", type: "date", name: "startDate", value: formData.startDate, onChange: handleChange, error: errors.startDate, className: "text-lg rounded-lg" }),
+                                React.createElement(components_1.Input, { label: "End Date *", type: "date", name: "endDate", value: formData.endDate, onChange: handleChange, error: errors.endDate, className: "text-lg rounded-lg" })))),
+                    React.createElement("div", { className: "flex gap-4 pt-6" },
+                        React.createElement(components_1.Button, { type: "submit", disabled: isSubmitting, className: "bg-blue-600 text-white text-lg font-semibold px-6 py-3 rounded-xl hover:bg-blue-700 transition" },
+                            isSubmitting ? "Creating..." : "Create Project",
+                            " \u2728"),
                         React.createElement(link_1["default"], { href: "/admin/projects" },
-                            React.createElement(components_1.Button, { variant: "secondary" }, "Cancel"))))))));
+                            React.createElement(components_1.Button, { variant: "secondary", className: "text-lg font-semibold px-6 py-3 rounded-xl hover:bg-gray-100 transition" }, "Cancel \u274C"))))))));
 }
 exports["default"] = NewProjectPage;

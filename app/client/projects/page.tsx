@@ -8,7 +8,7 @@ import {
   EmptyState,
   
 } from "@/app/components";
-import { SkeletonList } from "@/app/components/skeleton";
+import { SkeletonList } from "@/app/components/Skeleton";
 import Link from "next/link";
 import { useProtectedRoute } from "@/lib/hooks/useProtectedRoute";
 import { calculateHealth, getHealthStatus, getHealthColor, getHealthBgColor } from "@/lib/utils/healthScoreCalculator";

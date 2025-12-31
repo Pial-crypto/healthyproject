@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardBody } from "@/app/components";
-import { SkeletonList } from "@/app/components/skeleton";
+import { SkeletonList } from "@/app/components/Skeleton";
 import { useProtectedRoute } from "@/lib/hooks/useProtectedRoute";
 import { activityHook } from "@/lib/hooks/activityHook";
 import { getActivityIcon } from "@/lib/utils/adminHelpers";

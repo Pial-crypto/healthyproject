@@ -1,6 +1,9 @@
-import { useEffect } from "react";
+"use client"
 
-export const activityHook=async(projects:any,checkIns:any,risks:any,feedbacks:any,setActivities:any)=>{
+import { useEffect } from "react";
+import { ClientFeedback, EmployeeCheckIn, Project, Risk } from "../types";
+
+export const activityHook=(projects:Project[],checkIns:EmployeeCheckIn[],risks:Risk[],feedbacks:ClientFeedback[],setActivities:any)=>{
       useEffect(() => {
         if (!projects.length) return;
         const projectIds = new Set(projects.map(p => p._id.toString()));
